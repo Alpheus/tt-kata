@@ -7,40 +7,38 @@ class DeliveryEstimator {
         return Math.max(...routes, 0);
     }
 
-    planRoute(cargoManifest: string): any[] {
+    #planRoute(cargoManifest: string): any[] {
         const cargo = cargoManifest.split('');
         const routes: any[] = [];
 
-        if (cargo[0] === 'B') {
-            routes.push(B_DISTANCE);
-        }
+        let aTravelled = 0;
+        let shipTravelled = 0;
+        let firstTruckToA = true;
 
-        if (cargo[1] === 'B') {
-            routes.push(B_DISTANCE);
-        }
-
-        if (cargo[0] === 'A') {
-            routes.push(TO_PORT);
-            routes.push(TO_PORT + PORT_TO_A);
-        }
-
-        if (cargo[1] === 'A') {
-            routes.push(TO_PORT);
-            routes.push(TO_PORT + PORT_TO_A + PORT_TO_A + PORT_TO_A);
-        }
-
-        if (cargo[2] === 'A') {
-            routes.push(TO_PORT);
-            routes.push(TO_PORT + PORT_TO_A);
-
-            routes.push(TO_PORT + PORT_TO_A + 2*PORT_TO_A + 2* PORT_TO_A);
+        for (let destination of cargo) {
+            switch (destination) {
+                case 'A':
+                    let truckTimeIncluded = aTravelled > shipTravelled ? aTravelled : 0;
+                    routes.push(truckTimeIncluded + TO_PORT + shipTravelled + PORT_TO_A);
+                    if (firstTruckToA) {
+                        firstTruckToA = false;
+                    } else {
+                        aTravelled += 2 * TO_PORT;
+                        firstTruckToA = true;
+                    }
+                    shipTravelled += 2 * PORT_TO_A;
+                    break;
+                case 'B':
+                    routes.push(B_DISTANCE);
+                    break;
+            }
         }
 
         return routes;
     }
 
     howLong = (cargoManifest: string) =>
-        this.#estimate(this.planRoute(cargoManifest));
+        this.#estimate(this.#planRoute(cargoManifest));
 }
 
 export { DeliveryEstimator };
