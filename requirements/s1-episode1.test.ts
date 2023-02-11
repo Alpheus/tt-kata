@@ -30,7 +30,7 @@ describe("Episode 1", () => {
         });
     });
 
-    describe("On map 1 - Route Planner", () => {
+    describe("On map 1 - Route Planner 🧀📻", () => {
         it("Estimates delivery time to deliver cargo using all vehicles", () => {
             const DoubleDeliveryToB = {
                 cargo: 'BB',
@@ -41,7 +41,7 @@ describe("Episode 1", () => {
             expect(estimator.howLong(DoubleDeliveryToB.cargo)).toBe(5);
         });
 
-        it("Routes separately for dock", () => {
+        it("Ship returns before taking next cargo", () => {
             const DoubleDeliveryToA = {
                 cargo: 'AA',
                 route: estimator.planRoute('AA')
@@ -49,6 +49,10 @@ describe("Episode 1", () => {
 
             expect(DoubleDeliveryToA.route).toHaveLength(4);
             expect(estimator.howLong(DoubleDeliveryToA.cargo)).toBe(13);
+        });
+
+        it("Vehicles move simultaneously", () => {
+            expect(estimator.howLong('AAA')).toBe(21);
         });
     });
 });

@@ -11,22 +11,29 @@ class DeliveryEstimator {
         const cargo = cargoManifest.split('');
         const routes: any[] = [];
 
-        if (cargo[0] == 'B') {
+        if (cargo[0] === 'B') {
             routes.push(B_DISTANCE);
         }
 
-        if (cargo[1] == 'B') {
+        if (cargo[1] === 'B') {
             routes.push(B_DISTANCE);
         }
 
-        if (cargo[0] == 'A') {
+        if (cargo[0] === 'A') {
             routes.push(TO_PORT);
             routes.push(TO_PORT + PORT_TO_A);
         }
 
-        if (cargo[1] == 'A') {
+        if (cargo[1] === 'A') {
             routes.push(TO_PORT);
             routes.push(TO_PORT + PORT_TO_A + PORT_TO_A + PORT_TO_A);
+        }
+
+        if (cargo[2] === 'A') {
+            routes.push(TO_PORT);
+            routes.push(TO_PORT + PORT_TO_A);
+
+            routes.push(TO_PORT + PORT_TO_A + 2*PORT_TO_A + 2* PORT_TO_A);
         }
 
         return routes;
