@@ -7,6 +7,9 @@ class DeliveryEstimator {
         if (cargoManifest === '')
             return 0;
         
+        if (cargoManifest.length === 1)
+            return 5;
+        
         return 5;
     }
 }
