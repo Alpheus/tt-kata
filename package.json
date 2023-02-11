@@ -1,0 +1,32 @@
+{
+  "name": "ttd-kata",
+  "version": "1.0.0",
+  "main": "hello.ts",
+  "scripts": {
+    "test": "jest requirements/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alpheus/tt-kata.git"
+  },
+  "keywords": [
+    "kata",
+    "transport-tycoon",
+    "tdd",
+    "cqrs",
+    "event"
+  ],
+  "author": "Denis 'Alpheus' Čahuk",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Alpheus/tt-kata/issues"
+  },
+  "homepage": "https://github.com/Alpheus/tt-kata#readme",
+  "description": "",
+  "dependencies": {
+    "ts-jest": "^29.0.3"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.2.4"
+  }
+}
