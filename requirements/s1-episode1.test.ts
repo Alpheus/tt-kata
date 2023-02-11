@@ -30,7 +30,7 @@ describe("Episode 1", () => {
         });
     });
 
-    describe("On map 1 - Route Planner 🧀📻", () => {
+    describe("On map 1 - Route Planner", () => {
         it("Estimates delivery time to deliver cargo using all vehicles", () => {
             expect(estimator.howLong('BB')).toBe(5);
         });
@@ -43,6 +43,11 @@ describe("Episode 1", () => {
             expect(estimator.howLong('AAA')).toBe(21);
             expect(estimator.howLong('ABA')).toBe(13);
             expect(estimator.howLong('ABBA')).toBe(15);
+
+            expect(estimator.howLong('ABB')).toBe(7);
+            expect(estimator.howLong('ABBB')).toBe(15);
+            expect(estimator.howLong('AABABBAB')).toBe(29);
+            expect(estimator.howLong('ABBBABAAABBB')).toBe(41);
         });
     });
 });

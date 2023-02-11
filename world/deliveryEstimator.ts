@@ -6,14 +6,8 @@ class DeliveryEstimator {
     howLong(cargoManifest: string): number {
         const cargo = cargoManifest.split('');
 
-        let vehicleTime = {
-            truckA: 0,
-            truckB: 0,
-            ship: 0
-        };
-
+        let vehicleTime = { truckA: 0, truckB: 0, ship: 0 };
         let availableTruck = 'truckA';
-
         let lastDelivery = 0;
 
         for (let destination of cargo) {
@@ -21,9 +15,10 @@ class DeliveryEstimator {
 
             switch (destination) {
                 case 'A':
-                    thisDelivery = Math.max(vehicleTime[availableTruck], vehicleTime.ship) + TO_PORT + PORT_TO_A;
+                    let shipDeparture = Math.max(vehicleTime[availableTruck] + TO_PORT, vehicleTime.ship);
+                    thisDelivery = shipDeparture + PORT_TO_A;
+                    vehicleTime.ship = shipDeparture + 2 * PORT_TO_A;
                     vehicleTime[availableTruck] += 2 * TO_PORT;
-                    vehicleTime.ship += 2 * PORT_TO_A;                  
 
                     break;
                 case 'B':
