@@ -3,42 +3,42 @@ const PORT_TO_A = 4;
 const B_DISTANCE = 5;
 
 class DeliveryEstimator {
-    #estimate(routes: any[]) {
-        return Math.max(...routes, 0);
-    }
-
-    #planRoute(cargoManifest: string): any[] {
+    howLong(cargoManifest: string): number {
         const cargo = cargoManifest.split('');
-        const routes: any[] = [];
 
-        let aTravelled = 0;
-        let shipTravelled = 0;
-        let firstTruckToA = true;
+        let vehicleTime = {
+            truckA: 0,
+            truckB: 0,
+            ship: 0
+        };
+
+        let availableTruck = 'truckA';
+
+        let lastDelivery = 0;
 
         for (let destination of cargo) {
+            let thisDelivery;
+
             switch (destination) {
                 case 'A':
-                    let truckTimeIncluded = aTravelled > shipTravelled ? aTravelled : 0;
-                    routes.push(truckTimeIncluded + TO_PORT + shipTravelled + PORT_TO_A);
-                    if (firstTruckToA) {
-                        firstTruckToA = false;
-                    } else {
-                        aTravelled += 2 * TO_PORT;
-                        firstTruckToA = true;
-                    }
-                    shipTravelled += 2 * PORT_TO_A;
+                    thisDelivery = Math.max(vehicleTime[availableTruck], vehicleTime.ship) + TO_PORT + PORT_TO_A;
+                    vehicleTime[availableTruck] += 2 * TO_PORT;
+                    vehicleTime.ship += 2 * PORT_TO_A;                  
+
                     break;
                 case 'B':
-                    routes.push(B_DISTANCE);
+                    thisDelivery = vehicleTime[availableTruck] + B_DISTANCE;
+                    vehicleTime[availableTruck] += 2 * B_DISTANCE;
+
                     break;
             }
+
+            lastDelivery = Math.max(lastDelivery, thisDelivery);
+            availableTruck = vehicleTime.truckA > vehicleTime.truckB ? 'truckB' : 'truckA';
         }
 
-        return routes;
+        return lastDelivery;
     }
-
-    howLong = (cargoManifest: string) =>
-        this.#estimate(this.#planRoute(cargoManifest));
 }
 
 export { DeliveryEstimator };

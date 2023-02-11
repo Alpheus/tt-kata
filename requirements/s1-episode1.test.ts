@@ -42,6 +42,7 @@ describe("Episode 1", () => {
         it("Vehicles move simultaneously", () => {
             expect(estimator.howLong('AAA')).toBe(21);
             expect(estimator.howLong('ABA')).toBe(13);
+            expect(estimator.howLong('ABBA')).toBe(15);
         });
     });
 });
